@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyek Lagu dan Foto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .audio-player {
+            display: none;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .audio-player.active {
+            display: block;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .controls button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .controls button:hover {
+            background-color: #0056b3;
+        }
+        img {
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Contoh Lagu dan Foto</h1>
+    <!-- Menampilkan foto -->
+    <img src="contoh-aja.JPG.jpg" alt="Foto Contoh" width="300">
+   
+    <!-- Memutar lagu -->
+    <div class="audio-player active" id="player1">
+        <audio id="audio1" controls>
+            <source src="Lagu.mp3" type="audio/mpeg">
+            Browser kamu tidak mendukung audio.
+        </audio>
+    </div>
+    <div class="audio-player" id="player2">
+        <audio id="audio2" controls>
+            <source src="Lagu2.mp3" type="audio/mpeg">
+            Browser kamu tidak mendukung audio.
+        </audio>
+    </div>
+    <!-- Tombol kontrol -->
+    <div class="controls">
+        <button id="prevBtn">&larr; Lagu Sebelumnya</button>
+        <button id="nextBtn">Lagu Berikutnya &rarr;</button>
+    </div>
+    <script>
+        // Mendapatkan elemen audio dan player
+        const audio1 = document.getElementById('audio1');
+        const audio2 = document.getElementById('audio2');
+        const player1 = document.getElementById('player1');
+        const player2 = document.getElementById('player2');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentPlayer = 1;
+
+        // Fungsi untuk menghentikan audio lain saat satu audio dimainkan
+        function pauseOtherAudio(currentAudio) {
+            if (currentAudio === audio1) {
+                audio2.pause();
+            } else if (currentAudio === audio2) {
+                audio1.pause();
+            }
+        }
+
+        // Menambahkan event listener untuk setiap audio
+        audio1.addEventListener('play', function() {
+            pauseOtherAudio(audio1);
+        });
+
+        audio2.addEventListener('play', function() {
+            pauseOtherAudio(audio2);
+        });
+
+        // Fungsi untuk menampilkan player yang sesuai dan menghentikan audio
+        function showPlayer(playerNumber) {
+            if (playerNumber === 1) {
+                player1.classList.add('active');
+                player2.classList.remove('active');
+                audio2.pause();
+                audio2.currentTime = 0;
+            } else {
+                player1.classList.remove('active');
+                player2.classList.add('active');
+                audio1.pause();
+                audio1.currentTime = 0;
+            }
+        }
+
+        // Event listener untuk tombol kontrol
+        prevBtn.addEventListener('click', function() {
+            currentPlayer = currentPlayer === 1 ? 2 : 1;
+            showPlayer(currentPlayer);
+        });
+
+        nextBtn.addEventListener('click', function() {
+            currentPlayer = currentPlayer === 1 ? 2 : 1;
+            showPlayer(currentPlayer);
+        });
+    </script>
+</body>
+</html>
